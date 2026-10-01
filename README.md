@@ -40,6 +40,54 @@ formatCurrency(100000);
 
 You don't need to pass the country or locale every time.
 
+## Custom Currency Symbol
+
+You can optionally provide a custom currency symbol when configuring the country.
+
+If `currencySymbol` is not provided, the package automatically uses the default currency symbol for the configured country.
+
+### Default Currency Symbol
+
+```ts
+configure({
+  country: "IN",
+});
+
+formatCurrency(100000);
+// "₹1,00,000.00"
+```
+
+### Custom Currency Symbol
+
+```ts
+configure({
+  country: "IN",
+  currencySymbol: "Rs.",
+});
+
+formatCurrency(100000);
+// "Rs. 1,00,000.00"
+```
+
+The custom currency symbol only affects `formatCurrency()`. Number formatting remains unchanged:
+
+```ts
+formatNumber(100000);
+// "1,00,000"
+```
+
+You can use any custom text as the currency symbol:
+
+```ts
+configure({
+  country: "IN",
+  currencySymbol: "INR",
+});
+
+formatCurrency(100000);
+// "INR 1,00,000.00"
+```
+
 ## Change Country
 
 You can change the global configuration whenever your application needs to switch countries.
@@ -53,6 +101,9 @@ configure({
 
 formatNumber(1234567);
 // "12,34,567"
+
+formatCurrency(100000);
+// "₹1,00,000.00"
 ```
 
 ### United States
@@ -64,6 +115,9 @@ configure({
 
 formatNumber(1234567);
 // "1,234,567"
+
+formatCurrency(100000);
+// "$100,000.00"
 ```
 
 ### Germany
@@ -75,19 +129,40 @@ configure({
 
 formatNumber(1234567);
 // "1.234.567"
+
+formatCurrency(100000);
+// "100.000,00 €"
 ```
 
 ## API
 
 ### `configure()`
 
-Configure the country used by the formatter.
+Configures the country used by the formatter.
 
 ```ts
 configure({
   country: "IN",
 });
 ```
+
+You can optionally provide a custom currency symbol:
+
+```ts
+configure({
+  country: "IN",
+  currencySymbol: "Rs.",
+});
+```
+
+#### Options
+
+| Option           | Type      | Required | Description                                       |
+| ---------------- | --------- | -------- | ------------------------------------------------- |
+| `country`        | `Country` | Yes      | Country used to determine the locale and currency |
+| `currencySymbol` | `string`  | No       | Custom currency symbol used by `formatCurrency()` |
+
+If `currencySymbol` is omitted, the default currency symbol provided by `Intl.NumberFormat` is used.
 
 ### `formatNumber()`
 
@@ -97,7 +172,7 @@ Formats a number according to the configured country.
 formatNumber(1234567);
 ```
 
-Example:
+Examples:
 
 ```text
 IN → 12,34,567
@@ -116,6 +191,18 @@ configure({
 
 formatCurrency(100000);
 // "₹1,00,000.00"
+```
+
+With a custom currency symbol:
+
+```ts
+configure({
+  country: "IN",
+  currencySymbol: "Rs.",
+});
+
+formatCurrency(100000);
+// "Rs. 1,00,000.00"
 ```
 
 ## Supported Countries
@@ -140,21 +227,32 @@ The package includes TypeScript declarations out of the box.
 import { configure, formatNumber, formatCurrency } from "global-number-format";
 ```
 
+The `Country` type can also be used when needed:
+
+```ts
+import type { Country } from "global-number-format";
+```
+
 ## How It Works
 
 The package provides a simple country-based API while using the native JavaScript `Intl.NumberFormat` API for the actual formatting.
 
 ```text
-configure({ country: "IN" })
+configure({
+  country: "IN",
+  currencySymbol: "Rs."
+})
             ↓
       Country config
             ↓
-       Locale + Currency
+     Locale + Currency
             ↓
-   Intl.NumberFormat
+      Intl.NumberFormat
             ↓
-     Formatted value
+      Formatted value
 ```
+
+The `currencySymbol` option is optional. When it is not provided, the default currency symbol from `Intl.NumberFormat` is used.
 
 ## React / React Native
 
@@ -178,6 +276,18 @@ Output:
 
 ```text
 1,25,000
+```
+
+Currency formatting can also be used:
+
+```tsx
+<Text>{formatCurrency(125000)}</Text>
+```
+
+Output:
+
+```text
+₹1,25,000.00
 ```
 
 ## Requirements

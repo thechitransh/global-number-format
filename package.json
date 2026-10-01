@@ -1,16 +1,31 @@
 {
   "name": "global-number-format",
-  "version": "1.0.1",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.5",
+  "description": "A simple, locale-aware number formatting utility for JavaScript and TypeScript applications.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "number",
+    "format",
+    "currency",
+    "locale",
+    "typescript"
+  ],
+  "author": "thechitransh",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

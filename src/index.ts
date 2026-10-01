@@ -1,2 +1,2 @@
-export { configure, getCountry } from "./config";
-export {formatNumber,formatCurrency} from "./formatter";
+export { configure, getCountry } from "./config.js";
+export {formatNumber,formatCurrency} from "./formatter.js";

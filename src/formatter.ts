@@ -22,11 +22,20 @@ export function formatCurrency(value: number): string {
   const { locale, currency } = getCountryConfig();
    const currencySymbol  = getCurrencySymbol()
 
+  const rounded = Math.round(value * 100) / 100;
+  const digits = Number.isInteger(rounded) ? 0 : 2;
+
    if(currencySymbol){
-    return  `${currencySymbol} ${formatNumber(value)}`
+    const formatted = new Intl.NumberFormat(locale, {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    }).format(rounded);
+    return `${currencySymbol}${formatted}`;
    }
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
-  }).format(value);
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(rounded);
 }

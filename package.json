@@ -1,6 +1,6 @@
 {
   "name": "global-number-format",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple, locale-aware number formatting utility for JavaScript and TypeScript applications.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
